@@ -8,13 +8,13 @@ var dictionaryUS = new Typo("en_US");
 
 
 const app = express();
+app.use(express.static(__dirname + '/public'));
 
 var wordToGuess = '';
-
 app.get('/', (req, res) => {
     var fiveLetterWords = [];
     try {
-        fiveLetterWords = fs.readFileSync('fiveletterwordsalphabetical.txt', 'utf-8').split("\n");
+        fiveLetterWords = fs.readFileSync('public/fiveletterwordsalphabetical.txt', 'utf-8').split("\n");
     } catch (err) {
         console.error(err);
     }
@@ -22,12 +22,12 @@ app.get('/', (req, res) => {
     wordToGuess = fiveLetterWords[Math.floor(Math.random()*fiveLetterWords.length)];
     console.log(wordToGuess);
 
-    res.status(200).sendFile(path.join(__dirname, "index.html"));
+    res.status(200).sendFile(path.join(__dirname, "public/html/index.html"));
 });
 
 app.get('/spellcheck/:guessWord', (req, res) => {
-    const {guessWord} = req.params;
-    //console.log(guessWord);
+    const guessWord = req.params.guessWord.toLowerCase();
+    //console.log(`GuessWord ${guessWord}`);
     var isSpelledCorrectly = dictionaryUS.check(guessWord);
 
     // 3 options for each letter
@@ -59,8 +59,8 @@ app.get('/spellcheck/:guessWord', (req, res) => {
             }
         }    
     }
-    //console.log(disectArray);
     var response = {
+        "generatedGuessWord": wordToGuess,
         "isSpelledCorrectly": isSpelledCorrectly,
         "disectedArray": disectArray
     }

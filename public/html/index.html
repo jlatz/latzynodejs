@@ -2,59 +2,7 @@
 <html>
     <head>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-
-        <style>
-            :root {
-                --incorrectLetter: grey;
-                --halfCorrectLetter: gold;
-                --fullCorrectLetter: darkorange;
-            }
-            #header, #footer {
-                text-align: center;
-                margin-bottom: 15px;
-            }
-            #rowOne, #rowTwo, #rowThree, #rowFour, #rowFive, #rowSix {
-                text-align: center;
-            }
-            #rowOne input, #rowTwo input, #rowThree input, #rowFour input, #rowFive input, #rowSix input {
-                width:80%; 
-                height:80%;
-                font-size: 50px;
-            }
-            .columnOne, .columnTwo, .columnThree, .columnFour, .columnFive {
-                width: 90px;
-                height: 90px;
-                display: inline-block;
-            }
-
-            .incorrectLetter {
-                background-color : var(--incorrectLetter); 
-                border:1px solid var(--incorrectLetter);
-            }
-
-            .halfCorrectLetter {
-                background-color: var(--halfCorrectLetter);
-                border:1px solid var(--halfCorrectLetter);
-            }
-
-            .fullCorrectLetter {
-                background-color: var(--fullCorrectLetter);
-                border:1px solid var(--fullCorrectLetter);
-            }
-
-            .divWordExample {
-                width: 30px;
-                height: 30px;
-                display: inline-block;
-                border: 1px solid black;
-            }
-
-            .wordExample {
-                font-size:20px;
-                padding-left: 8px;
-            }
-
-        </style>
+        <link rel="stylesheet" type="text/css" href="css/index.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     </head>
@@ -107,6 +55,7 @@
                 url: `/spellcheck/${userGuessWord}`
             })
             .done((msg) => {
+                console.log(msg);
                 validWord = msg.isSpelledCorrectly;
                 if(validWord){
                     giveWordFeedback(msg.disectedArray);
@@ -115,7 +64,7 @@
                         disableWinningRow();
                         return;
                     }
-                    moveToNextWord();
+                    moveToNextWord(msg.generatedGuessWord);
                 }
                 else {
                     alert("Word not found in dictionary");
@@ -352,7 +301,7 @@
             return numOfCorrectLetters === 5 ? true : false;
         }
 
-        function moveToNextWord () {
+        function moveToNextWord(generatedGuessWord) {
             switch(count) {
                 case 0:
                     $('.inRowOne').prop('disabled', true);
@@ -377,7 +326,7 @@
                 case 5:
                     // The Game is finished
                     $('.inRowSix').prop('disabled', true);
-                    //alert(`Correct word was ${}`);
+                    alert(`Correct word was ${generatedGuessWord}`);
                     break;
                 default:
                     alert('moveToNextWord Switch Statement Default');
@@ -417,6 +366,7 @@
         </div>
 
         <div id="divGameBoard">
+            <span id="alertUser" class="alert alert-secondary" style="text-align:center; display:block;">HI</span>
             <div id="rowOne">
                 <div class="columnOne"><input id="OneOne" class="inRowOne" type="text" maxlength="1" autocomplete="off"></div>
                 <div class="columnTwo"><input id="OneTwo" class="inRowOne" type="text" maxlength="1" autocomplete="off"></div>
@@ -469,18 +419,18 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                    <h5 class="modal-title">How To Play</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                        <h5 class="modal-title">How To Play</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
                     <div class="modal-body">
                         <div class="directionIntro">
                             <p>You have six ties to guess the word</p>
                             <p>Each guess must be a valid five-letter word. Hit the enter button to check your guess.</p>
                             <p>After each guess, the color of the tiles will change to show how close your guess was to the word.</p>
-                            <hr/>
                         </div>
+                        <hr>
                         <div class="directionExamples">
                             <p><stong>Examples</stong></p>
                             <div class="fullCorrectLetterExample">

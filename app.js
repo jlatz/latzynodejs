@@ -40,7 +40,7 @@ app.get('/spellcheck/:guessWord', (req, res) => {
         let wordToGuessArr = wordToGuess.split("");
         let userGuessWordArr = guessWord.split("");
 
-        for(let index = 0; index < userGuessWordArr.length; index++) {
+        for(let index = 0; index < userGuessWordArr.length; index++) { 
             let positionOfLetter = wordToGuessArr.indexOf(userGuessWordArr[index]);
             if (positionOfLetter === -1){
                 // letter was not found
@@ -54,7 +54,11 @@ app.get('/spellcheck/:guessWord', (req, res) => {
                 } 
                 else {
                     // letter exists in word but is not in the correct spot
-                    disectArray[index] = "3";
+                    // in the case of words that have double the same letters, check that the second double letter is in the correct spot
+                    if (userGuessWordArr[index] === wordToGuessArr[index])
+                        disectArray[index] = "2";
+                    else
+                        disectArray[index] = "3";
                 }
             }
         }    

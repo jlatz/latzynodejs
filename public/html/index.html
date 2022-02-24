@@ -55,7 +55,7 @@
                 url: `/spellcheck/${userGuessWord}`
             })
             .done((msg) => {
-                console.log(msg);
+                //console.log(msg);
                 validWord = msg.isSpelledCorrectly;
                 if(validWord){
                     giveWordFeedback(msg.disectedArray);

@@ -46,7 +46,7 @@
         function checkGuess() {
             let userGuessWord = retrieveUserGuessWord();          
             if (!userGuessWord.match('[a-zA-Z]{5}')){
-                alert("Invalid Word");
+                alertTheUser("Invalid Word");
                 return;
             }
 
@@ -60,14 +60,14 @@
                 if(validWord){
                     giveWordFeedback(msg.disectedArray);
                     if(checkWinner(msg.disectedArray)) {
-                        alert('Congrats!! You won');
+                        alertTheUser("Congrats!! You Won");
                         disableWinningRow();
                         return;
                     }
                     moveToNextWord(msg.generatedGuessWord);
                 }
                 else {
-                    alert("Word not found in dictionary");
+                    alertTheUser("Word not found in dictionary");
                 }      
             })
             .fail((msg) => {
@@ -127,9 +127,8 @@
                     userGuessWord = charOne + charTwo + charThree + charFour + charFive;
                     break;
                 default:
-                    alert('retrieveUserGuessWord Switch Statement Default');
             }
-            return userGuessWord;
+            return userGuessWord.toLowerCase();
         }
 
         function giveWordFeedback(disectedArray) {
@@ -358,6 +357,16 @@
                     alert('disableWinningRow Switch Statement Default');
             } 
         }
+
+        function alertTheUser(alertMsg) {
+            let span = $('#alertUser')[0];
+            span.innerHTML = alertMsg;
+            span.style["display"] = "block";
+            
+            setTimeout(() => {
+                span.style["display"] = "none";    
+            }, 3000);
+        }
     </script>
      
     <body>
@@ -366,7 +375,7 @@
         </div>
 
         <div id="divGameBoard">
-            <span id="alertUser" class="alert alert-secondary" style="text-align:center; display:block;">HI</span>
+            <span id="alertUser" class="alert alert-secondary" style="text-align:center; display:none;"></span>
             <div id="rowOne">
                 <div class="columnOne"><input id="OneOne" class="inRowOne" type="text" maxlength="1" autocomplete="off"></div>
                 <div class="columnTwo"><input id="OneTwo" class="inRowOne" type="text" maxlength="1" autocomplete="off"></div>

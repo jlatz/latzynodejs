@@ -26,7 +26,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/spellcheck/:guessWord', (req, res) => {
-    const guessWord = req.params.guessWord.toLowerCase();
+    const {guessWord} = req.params;
     //console.log(`GuessWord ${guessWord}`);
     var isSpelledCorrectly = dictionaryUS.check(guessWord);
 

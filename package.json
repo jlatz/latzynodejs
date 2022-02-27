@@ -11,7 +11,8 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.2",
-    "typo-js": "^1.2.1"
+    "typo-js": "^1.2.1",
+    "vue": "^3.2.31"
   },
   "devDependencies": {
     "nodemon": "^2.0.15"
